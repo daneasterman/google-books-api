@@ -1,5 +1,6 @@
 import requests
 from pprint import pprint
+from PyInquirer import prompt, Separator
 
 def google_books_query():
 	# URL for the Google Books API:
