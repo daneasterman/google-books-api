@@ -24,7 +24,7 @@ def google_books_query():
 		books = []
 		# Iterate through books and get author, title, and publisher:
 		for book in data["items"]:
-			book = {				
+			book = {
 				"author": book["volumeInfo"]["authors"][0],
 				"name": book["volumeInfo"]["title"],
 				"publisher": book["volumeInfo"]["publisher"]
@@ -50,7 +50,7 @@ def select_save_book():
 	READING_LIST.append(answer)
 	decide_next_steps()
 
-def decide_next_steps():	
+def decide_next_steps():
 	question = [{
 					"type": "list",
 					"message": "What would you like to do next?",
