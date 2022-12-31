@@ -1,5 +1,7 @@
-from utils.google_books_api import create_books_api
 from PyInquirer import prompt
+from requests import ConnectionError
+from utils.google_books_api import create_books_api
+
 
 READING_LIST = []
 
@@ -37,25 +39,28 @@ def search_books():
     }]
 	answer = prompt(question)		
 	if answer:
-		api = create_books_api(answer)		
-		data = api.json()
-		found_books = []
-		for book in data["items"]:
-			authors = book["volumeInfo"].get("authors")
-			if not authors:
-				pass
-			else:
-				book = {
-					"author": book["volumeInfo"]["authors"],
-					"name": book["volumeInfo"]["title"],
-					"publisher": book["volumeInfo"]["publisher"]
-				}
-				found_books.append(book)
-		if found_books:
-			print("Your 5 books:")
-			for book in found_books:
-				print(f"Title: {book['name']}, Author: {book['author']}, Publisher: ({book['publisher']})")
-			select_and_save(found_books)
+		try: 
+			api = create_books_api(answer)		
+			data = api.json()
+			found_books = []
+			for book in data["items"]:
+				authors = book["volumeInfo"].get("authors")
+				if not authors:
+					pass
+				else:
+					book = {
+						"author": book["volumeInfo"]["authors"],
+						"name": book["volumeInfo"]["title"],
+						"publisher": book["volumeInfo"]["publisher"]
+					}
+					found_books.append(book)
+			if found_books:
+				print("Your 5 books:")
+				for book in found_books:
+					print(f"Title: {book['name']}, Author: {book['author']}, Publisher: ({book['publisher']})")
+				select_and_save(found_books)
+		except ConnectionError as e:
+			print("It appears that you are not connected to the internet. Please check your internet connection and try again.")
 
 def select_and_save(books):
 	question = [{
