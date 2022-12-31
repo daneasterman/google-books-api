@@ -10,20 +10,24 @@ def decide_action():
 					"name": "action",
 					"choices": ["Search for a book", "View your reading list", "Exit the program"]
 					}]
-	answer = prompt(question)
-	if answer["action"] == "Search for a book":		
-		search_books()
-	elif answer["action"] == "View your reading list":
-		if READING_LIST:
-			print("Your reading list:")
-			for b in READING_LIST:
-				print(f" - {b['books']}")
-			decide_action()
+	try:
+		answer = prompt(question)
+		if answer.get("action") == "Search for a book":
+		# if answer["action"] == "Search for a book":
+			search_books()
+		elif answer.get("action") == "View your reading list":
+			if READING_LIST:
+				print("Your reading list:")
+				for b in READING_LIST:
+					print(f" - {b['books']}")
+				decide_action()
+			else:
+				print("No books saved to reading list yet.")
+				decide_action()
 		else:
-			print("No books saved to reading list yet.")
-			decide_action()
-	else:
-		exit()		
+			exit()
+	except EOFError:
+		print("The CLI was terminated by the user with CTRL+D")
 
 def search_books():
 	question = [{
