@@ -1,16 +1,11 @@
 # from pynput import mouse
 # import mouse
+import os
 from PyInquirer import prompt
 from requests import ConnectionError
-from utils.google_books_api import create_books_api
+from utils.google_books_api import get_books
 
 READING_LIST = []
-
-def clicking_alert():
-	print("Sorry, using the mouse is not supported in this application. Please try running the program again.")	
-
-def goodbye():
-	print("Thank you for using the Google Books CLI.")
 
 def decide_action():	
 	question = [{
@@ -45,30 +40,13 @@ def search_books():
 		'name': 'keyword',
 		'message': "Enter a keyword to query the Google Books API. Example: 'python'",
     }]
-	answer = prompt(question)		
-	if answer:
-		try: 
-			api = create_books_api(answer)		
-			data = api.json()
-			found_books = []
-			for book in data["items"]:
-				authors = book["volumeInfo"].get("authors")
-				if not authors:
-					pass
-				else:
-					book = {
-						"author": book["volumeInfo"]["authors"],
-						"name": book["volumeInfo"]["title"],
-						"publisher": book["volumeInfo"]["publisher"]
-					}
-					found_books.append(book)
-			if found_books:
-				print("Your 5 books:")
-				for book in found_books:
-					print(f"Title: {book['name']}, Author: {book['author']}, Publisher: ({book['publisher']})")
-				select_and_save(found_books)
-		except ConnectionError:
-			print("It appears that you are not connected to the internet. Please check your internet connection and try again.")
+	answer = prompt(question)
+	try:
+		found_books = get_books(answer)
+		select_and_save(found_books)
+	except ConnectionError:
+			print("It appears that you are not connected to the internet. Please check your internet connection and restart the program.")
+		
 
 def select_and_save(books):	
 	question = [{
