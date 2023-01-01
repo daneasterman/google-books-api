@@ -1,9 +1,16 @@
+# from pynput import mouse
+# import mouse
 from PyInquirer import prompt
 from requests import ConnectionError
 from utils.google_books_api import create_books_api
 
-
 READING_LIST = []
+
+def clicking_alert():
+	print("Sorry, using the mouse is not supported in this application. Please try running the program again.")	
+
+def goodbye():
+	print("Thank you for using the Google Books CLI.")
 
 def decide_action():	
 	question = [{
@@ -26,6 +33,7 @@ def decide_action():
 			else:
 				print("No books saved to reading list yet.")
 				decide_action()
+		# elif answer.get("action") == "Exit the program":
 		else:
 			exit()
 	except EOFError:
@@ -59,10 +67,10 @@ def search_books():
 				for book in found_books:
 					print(f"Title: {book['name']}, Author: {book['author']}, Publisher: ({book['publisher']})")
 				select_and_save(found_books)
-		except ConnectionError as e:
+		except ConnectionError:
 			print("It appears that you are not connected to the internet. Please check your internet connection and try again.")
 
-def select_and_save(books):
+def select_and_save(books):	
 	question = [{
 				"type": "list",
         "message": "Please select a book you would like to save to your reading list by title:",
@@ -72,7 +80,11 @@ def select_and_save(books):
 	answer = prompt(question)	
 	READING_LIST.append(answer)
 	decide_action()
-	# print("The program has now ended, goodbye")	
+
+
+def main():	
+	decide_action()
 		
 if __name__ == "__main__":
-	decide_action()
+	main()
+	
