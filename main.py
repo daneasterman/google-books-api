@@ -46,7 +46,7 @@ def search_books():
 			found_books = get_books(answer)
 			select_and_save(found_books)
 		else:
-			print("Please make sure that you enter a keyword")
+			print("**Alert**: Please make sure that you enter a keyword")
 			search_books()
 	except ConnectionError:
 			print("It appears that you are not connected to the internet. Please check your internet connection and restart the program.")
