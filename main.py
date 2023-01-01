@@ -37,16 +37,22 @@ def decide_action():
 def search_books():
 	question = [{
 		'type': 'input',
-		'name': 'keyword',
+		'name': 'search',
 		'message': "Enter a keyword to query the Google Books API. Example: 'python'",
     }]
-	answer = prompt(question)
+	answer = prompt(question)	
 	try:
-		found_books = get_books(answer)
-		select_and_save(found_books)
+		if answer["search"]:
+			found_books = get_books(answer)
+			select_and_save(found_books)
+		else:
+			print("Please make sure that you enter a keyword")
+			search_books()
 	except ConnectionError:
 			print("It appears that you are not connected to the internet. Please check your internet connection and restart the program.")
-		
+	except KeyError:
+		print("Sorry, the API couldn't find anything with that keyword, please try again:")
+		search_books()
 
 def select_and_save(books):	
 	question = [{
