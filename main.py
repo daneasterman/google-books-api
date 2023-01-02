@@ -1,13 +1,11 @@
-# from pynput import mouse
-# import mouse
-import os
+import pynput
 from PyInquirer import prompt
 from requests import ConnectionError
 from utils.google_books_api import get_books
 
 READING_LIST = []
 
-def decide_action():	
+def decide_action():
 	question = [{
 					"type": "list",
 					"message": "Main Menu: Google Books CLI. What would you like to do?",
@@ -16,8 +14,7 @@ def decide_action():
 					}]
 	try:
 		answer = prompt(question)
-		if answer.get("action") == "Search for a book":
-		# if answer["action"] == "Search for a book":
+		if answer.get("action") == "Search for a book":		
 			search_books()
 		elif answer.get("action") == "View your reading list":
 			if READING_LIST:
@@ -27,12 +24,11 @@ def decide_action():
 				decide_action()
 			else:
 				print("No books saved to reading list yet.")
-				decide_action()
-		# elif answer.get("action") == "Exit the program":
+				decide_action()		
 		else:
 			exit()
 	except EOFError:
-		print("The CLI was terminated by the user with CTRL+D")
+		print("The CLI was terminated by the user with CTRL+D")	
 
 def search_books():
 	question = [{
@@ -65,10 +61,11 @@ def select_and_save(books):
 	READING_LIST.append(answer)
 	decide_action()
 
-
-def main():	
-	decide_action()
+def main():
+	mouse_listener = pynput.mouse.Listener(suppress=True)
+	mouse_listener.start()
+	decide_action()	
 		
-if __name__ == "__main__":
+if __name__ == "__main__":	
 	main()
 	
