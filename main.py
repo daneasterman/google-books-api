@@ -23,7 +23,7 @@ def decide_action():
 					print(f" - {b['books']}")
 				decide_action()
 			else:
-				print("No books saved to reading list yet.")
+				print("No books were saved to your reading list yet.")
 				decide_action()		
 		else:
 			exit()
