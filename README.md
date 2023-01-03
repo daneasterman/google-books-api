@@ -12,3 +12,7 @@ In the end it made sense for me to create a separate `decide_next_steps` functio
 
 ![IMG_9148](https://user-images.githubusercontent.com/4712052/208736594-722d474b-19d2-463a-bb71-a64483b72a15.jpg)
 
+### New for Version 2:
+
+Updated the Google Books API query to include an API key as stated in the official documentation. You can find instructions to add your API key here: [https://developers.google.com/books/docs/v1/using](https://developers.google.com/books/docs/v1/using)
+Just create a `.env` file in the root of the project and add your key with this variable name: `GOOGLE_BOOKS_API_KEY`
